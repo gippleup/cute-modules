@@ -31,7 +31,6 @@ describe('Tree', () => {
     });
     const expectedValue = ['child1', 'child2', 'child3', 'child4', 'child5'];
     expect(testingValue).toEqual(expectedValue);
-
   });
 
   it('can callback for each tree with depth-first search', () => {
