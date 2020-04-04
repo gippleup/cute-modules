@@ -1,4 +1,4 @@
-const LinkedList = require('../linkedList/LinkedList');
+const LinkedList = require('../LinkedList/LinkedList');
 
 class Vertex {
   constructor(value, id, key, inLimit, outLimit) {
