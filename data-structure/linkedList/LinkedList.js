@@ -13,9 +13,11 @@ class LinkedList {
   insert(value) {
     const newTail = new LinkNode(value);
     if (!this.head) {
+      // console.log(value);
       this.head = newTail;
       this.tail = newTail;
     } else {
+      // console.log(value);
       newTail.previous = this.tail;
       this.tail.next = newTail;
       this.tail = newTail;
@@ -40,10 +42,16 @@ class LinkedList {
 
   forEachNode(callback) {
     let curNode = this.head;
+    if (!curNode) {
+      return;
+    }
     callback(curNode);
     while (curNode.next) {
       curNode = curNode.next;
-      callback(curNode);
+      const result = callback(curNode);
+      if (result === 'stopLoop') {
+        return;
+      }
     }
   }
 
@@ -58,8 +66,7 @@ class LinkedList {
   filter(callback) {
     const newLinkedList = new LinkedList();
     this.forEachNode((node) => {
-      const result = callback(node);
-      if (result) {
+      if (callback(node)) {
         newLinkedList.insert(node.value);
       }
     });
@@ -72,6 +79,57 @@ class LinkedList {
       result = callback(result, node);
     });
     return result;
+  }
+
+  contains(filter) {
+    let result = false;
+
+    function action() {
+      result = true;
+    }
+
+    this.forEachNode((node) => {
+      if (typeof filter === 'function') {
+        if (filter(node)) {
+          action();
+          return 'stopLoop';
+        }
+      } else if (node.value === filter) {
+        action();
+        return 'stopLoop';
+      }
+      return false;
+    });
+    return result;
+  }
+
+  remove(filter) {
+    let removedNode = null;
+
+    function action(node) {
+      removedNode = node;
+      const prevNode = node.previous;
+      const target = node;
+      if (prevNode) {
+        prevNode.next = target.next;
+      } else {
+        this.head = target.next;
+      }
+    }
+
+    this.forEachNode((node) => {
+      if (typeof filter === 'function') {
+        if (filter(node)) {
+          action.call(this, node);
+          return 'stopLoop';
+        }
+      } else if (node.value === filter) {
+        action.call(this, node);
+        return 'stopLoop';
+      }
+      return false;
+    });
+    return removedNode;
   }
 }
 

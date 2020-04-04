@@ -79,4 +79,17 @@ describe('LinkedList', () => {
     const expectedValue = 28;
     expect(newValues).toEqual(expectedValue);
   });
+
+  it('can perform contains method by variable', () => {
+    expect(myLinkedList.contains('body3')).toEqual(true);
+  });
+
+  it('can perform contains method by function', () => {
+    expect(myLinkedList.contains((node) => node.value === 'body3')).toEqual(true);
+  });
+
+  it('can remove node', () => {
+    myLinkedList.remove('body3');
+    expect(myLinkedList.contains('body3')).toEqual(false);
+  });
 });
