@@ -5,8 +5,10 @@
   "main": "Tree.js",
   "scripts": {
     "test": "jest",
-    "test linkedList": "jest LinkedList",
-    "test tree": "jest Tree"
+    "test:linkedList": "jest LinkedList",
+    "test:tree": "jest Tree",
+    "test:graph": "jest Graph/Graph",
+    "test:vertex": "jest Graph/Vertex"
   },
   "repository": {
     "type": "git",
