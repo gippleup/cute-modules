@@ -174,6 +174,51 @@ describe('Vertex', () => {
     expect(testingValue).toEqual(expectedValue);
   });
 
+  it('can filter path with callback', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const filteredPath = vertex1.filterPath('vrtx5', (path) => {
+      let result = true;
+      path.forEach((vrtx) => {
+        if (vrtx.key === 'vrtx4') {
+          result = false;
+        }
+      });
+      return result;
+    });
+    const testingValue = filteredPath.map((path) => {
+      return path.map((vrtx) => vrtx.key);
+    });
+    const expectedValue = [
+      ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx3', 'vrtx5'],
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can perform reduce method on path', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const reducedPath = vertex1.reducePath('vrtx5', (minPath, path) => {
+      let newMinPath = minPath;
+      if (path.length < newMinPath.length) {
+        newMinPath = path;
+      }
+      return newMinPath;
+    });
+    const testingValue = reducedPath.map((vrtx) => vrtx.key);
+    const expectedValue = ['vrtx1', 'vrtx3', 'vrtx5'];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
   it('can get shortest path to target vertex', () => {
     vertex1.addEdge(vertex2);
     vertex1.addEdge(vertex3);
@@ -181,10 +226,7 @@ describe('Vertex', () => {
     vertex2.addEdge(vertex3);
     vertex3.addEdge(vertex4);
     vertex3.addEdge(vertex5);
-    const testingValue = vertex1.shortestPathTo('vrtx5').reduce((result, vrtx) => {
-      result.push(vrtx.key);
-      return result;
-    }, []);
+    const testingValue = vertex1.shortestPathTo('vrtx5').map((vrtx) => vrtx.key);
     const expectedValue = ['vrtx1', 'vrtx3', 'vrtx5'];
     expect(testingValue).toEqual(expectedValue);
   });

@@ -216,16 +216,37 @@ class Vertex {
     return this.mapPath(trgtKey, (vrtx) => vrtx.key);
   }
 
+  filterPath(trgtKey, callback) {
+    const pathArr = this.pathTo(trgtKey);
+    const filteredPath = pathArr.filter((path) => callback(path));
+    return filteredPath;
+  }
+
+  reducePath(trgtKey, callback, initialValue) {
+    const pathArr = this.pathTo(trgtKey);
+    let init = initialValue;
+    if (initialValue === undefined) {
+      [init] = pathArr;
+    }
+    const reducedPath = pathArr.reduce((acc, path) => {
+      let newAcc = acc;
+      newAcc = callback(acc, path);
+      return newAcc;
+    }, init);
+    return reducedPath;
+  }
+
   shortestPathTo(trgtKey) {
     const pathArr = this.pathTo(trgtKey);
-    const shortestArr = pathArr.reduce((minPath, path) => {
-      let newMinpath = minPath;
-      if (path.length < minPath.length) {
-        newMinpath = path;
+    let minLength = Infinity;
+    let minPath = [];
+    for (let i = 0; i < pathArr.length; i += 1) {
+      if (pathArr[i].length < minLength) {
+        minPath = pathArr[i];
+        minLength = pathArr[i].length;
       }
-      return newMinpath;
-    });
-    return shortestArr;
+    }
+    return minPath;
   }
 }
 
