@@ -208,12 +208,22 @@ class Vertex {
 
   mapPath(trgtKey, callback) {
     const pathArr = this.pathTo(trgtKey);
+    const mappedArr = pathArr.map((path) => callback(path));
+    return mappedArr;
+  }
+
+  mapPathVrtx(trgtKey, callback) {
+    const pathArr = this.pathTo(trgtKey);
     const mappedArr = pathArr.map((path) => path.map((vrtx) => callback(vrtx)));
     return mappedArr;
   }
 
   pathKeyArr(trgtKey) {
-    return this.mapPath(trgtKey, (vrtx) => vrtx.key);
+    return this.mapPathVrtx(trgtKey, (vrtx) => vrtx.key);
+  }
+
+  pathValueArr(trgtKey) {
+    return this.mapPathVrtx(trgtKey, (vrtx) => vrtx.value);
   }
 
   filterPath(trgtKey, callback) {

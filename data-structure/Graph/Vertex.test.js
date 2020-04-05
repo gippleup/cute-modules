@@ -1,5 +1,5 @@
 const Vertex = require('./Vertex');
-const { log } = require('../../test-helper');
+// const { log } = require('../../test-helper');
 
 describe('Vertex', () => {
   beforeEach(() => {
@@ -149,7 +149,7 @@ describe('Vertex', () => {
     vertex2.addEdge(vertex3);
     vertex3.addEdge(vertex4);
     vertex3.addEdge(vertex5);
-    const testingValue = vertex1.mapPath('vrtx5', (vrtx) => vrtx.key);
+    const testingValue = vertex1.mapPathVrtx('vrtx5', (vrtx) => vrtx.key);
     const expectedValue = [
       ['vrtx1', 'vrtx2', 'vrtx4', 'vrtx3', 'vrtx5'],
       ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
@@ -190,9 +190,7 @@ describe('Vertex', () => {
       });
       return result;
     });
-    const testingValue = filteredPath.map((path) => {
-      return path.map((vrtx) => vrtx.key);
-    });
+    const testingValue = filteredPath.map((path) => path.map((vrtx) => vrtx.key));
     const expectedValue = [
       ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
       ['vrtx1', 'vrtx3', 'vrtx5'],
