@@ -8,7 +8,8 @@
     "test:linkedList": "jest LinkedList",
     "test:tree": "jest Tree",
     "test:graph": "jest Graph/Graph",
-    "test:vertex": "jest Graph/Vertex"
+    "test:vertex": "jest Graph/Vertex",
+    "test:queue": "jest Queue/Queue"
   },
   "repository": {
     "type": "git",
