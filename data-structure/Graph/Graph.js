@@ -1,6 +1,7 @@
 const blankSquareArr = require('../../array-helper/blankSquareArr');
 const Vertex = require('./Vertex.js');
 
+
 class Graph {
   constructor(size) {
     this.vertices = {};
@@ -46,12 +47,38 @@ class Graph {
     });
   }
 
+  contains(vrtxKey) {
+    if (this.vertices[vrtxKey]) {
+      return true;
+    }
+    return false;
+  }
+
   filter(callback) {
-    const newGraph = new Graph(this.size);
-    this.forEachVertex((vrtx) => {
-      if (callback(vrtx)) {
-        newGraph.insert(vrtx.value);
+    const collection = [];
+    this.forEachVertex((vertex) => {
+      if (callback(vertex)) {
+        const edgeCollection = vertex.collectEdges((vrtx) => callback(vrtx));
+        const vrtxCollection = {
+          vertex,
+          inVrtx: edgeCollection.inVrtx,
+          outVrtx: edgeCollection.outVrtx,
+        };
+        collection.push(vrtxCollection);
       }
+    });
+    const newGraph = new Graph(collection.length);
+    collection.forEach((vrtxSet) => {
+      newGraph.insert(vrtxSet.vertex.value);
+    });
+    collection.forEach((vrtxSet) => {
+      const originVrtx = vrtxSet.vertex;
+      vrtxSet.inVrtx.forEach((inVrtx) => {
+        newGraph.addEdge(inVrtx.key, originVrtx.key, false);
+      });
+      vrtxSet.outVrtx.forEach((outVrtx) => {
+        newGraph.addEdge(originVrtx.key, outVrtx.key, false);
+      });
     });
     return newGraph;
   }

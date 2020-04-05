@@ -79,6 +79,9 @@ describe('Graph', () => {
       'vrtx2', 'vrtx3', 'vrtx4', 'vrtx5',
     ];
     expect(filteredGraph.keys).toEqual(expectedVertices);
+    expect(filteredGraph.vertices.vrtx2.contains('vrtx1')).toEqual(false);
+    expect(filteredGraph.vertices.vrtx3.contains('vrtx1')).toEqual(false);
+    expect(filteredGraph.vertices.vrtx3.contains('vrtx1')).toEqual(false);
   });
 
   afterAll(() => {
