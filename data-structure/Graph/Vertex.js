@@ -123,6 +123,59 @@ class Vertex {
       outVrtx,
     };
   }
+
+  /**
+   * @param {string} type 'to' or 'from'
+   */
+  forEachEdge(type, callback) {
+    this.edges[type].forEachNode((node) => {
+      callback(node.value);
+    });
+  }
+
+  dfs(callback) {
+    const stack = [];
+    const hasChecked = {};
+    let curVrtx = this;
+    stack.push(curVrtx);
+
+    function search() {
+      curVrtx = stack.pop();
+      callback(curVrtx);
+      hasChecked[curVrtx.key] = true;
+      curVrtx.forEachEdge('to', (vrtx) => {
+        if (!hasChecked[vrtx.key]) {
+          stack.push(vrtx);
+        }
+      });
+    }
+
+    while (stack.length) {
+      search();
+    }
+  }
+
+  bfs(callback) {
+    const queue = new Queue();
+    const hasChecked = {};
+    let curVrtx = this;
+    queue.enqueue(curVrtx);
+
+    function search() {
+      curVrtx = queue.dequeue();
+      callback(curVrtx);
+      hasChecked[curVrtx.key] = true;
+      curVrtx.forEachEdge('to', (vrtx) => {
+        if (!hasChecked[vrtx.key]) {
+          queue.enqueue(vrtx);
+        }
+      });
+    }
+
+    while (queue.count > 0) {
+      search();
+    }
+  }
 }
 
 module.exports = Vertex;

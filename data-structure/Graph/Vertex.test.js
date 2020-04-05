@@ -67,6 +67,36 @@ describe('Vertex', () => {
     expect(collection.inVrtx[1]).toEqual(vertex3);
   });
 
+  it('can perform depth-first-search', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex5);
+    const testingValue = [];
+    vertex1.dfs((vrtx) => {
+      testingValue.push(vrtx.value);
+    });
+    const expectedValue = [
+      'vrtx1', 'vrtx3', 'vrtx2', 'vrtx5', 'vrtx4',
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can perform breadth-first-search', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex5);
+    const testingValue = [];
+    vertex1.bfs((vrtx) => {
+      testingValue.push(vrtx.value);
+    });
+    const expectedValue = [
+      'vrtx1', 'vrtx2', 'vrtx3', 'vrtx4', 'vrtx5',
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
   afterAll(() => {
     delete global.vertex1;
     delete global.vertex2;
