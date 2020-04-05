@@ -215,6 +215,18 @@ class Vertex {
   pathKeyArr(trgtKey) {
     return this.mapPath(trgtKey, (vrtx) => vrtx.key);
   }
+
+  shortestPathTo(trgtKey) {
+    const pathArr = this.pathTo(trgtKey);
+    const shortestArr = pathArr.reduce((minPath, path) => {
+      let newMinpath = minPath;
+      if (path.length < minPath.length) {
+        newMinpath = path;
+      }
+      return newMinpath;
+    });
+    return shortestArr;
+  }
 }
 
 module.exports = Vertex;

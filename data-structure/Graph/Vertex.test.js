@@ -174,6 +174,21 @@ describe('Vertex', () => {
     expect(testingValue).toEqual(expectedValue);
   });
 
+  it('can get shortest path to target vertex', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const testingValue = vertex1.shortestPathTo('vrtx5').reduce((result, vrtx) => {
+      result.push(vrtx.key);
+      return result;
+    }, []);
+    const expectedValue = ['vrtx1', 'vrtx3', 'vrtx5'];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
   afterAll(() => {
     delete global.vertex1;
     delete global.vertex2;
