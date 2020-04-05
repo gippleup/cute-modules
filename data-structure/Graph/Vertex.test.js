@@ -68,7 +68,10 @@ describe('Vertex', () => {
   });
 
   afterAll(() => {
-    delete global.vertext1;
-    delete global.vertext2;
+    delete global.vertex1;
+    delete global.vertex2;
+    delete global.vertex3;
+    delete global.vertex4;
+    delete global.vertex5;
   });
 });
