@@ -82,7 +82,7 @@ describe('Vertex', () => {
     expect(testingValue).toEqual(expectedValue);
   });
 
-  it('can perform breadth-first-search', () => {
+  it('can perfrom breadth-first search', () => {
     vertex1.addEdge(vertex2);
     vertex1.addEdge(vertex3);
     vertex2.addEdge(vertex4);
@@ -93,6 +93,83 @@ describe('Vertex', () => {
     });
     const expectedValue = [
       'vrtx1', 'vrtx2', 'vrtx3', 'vrtx4', 'vrtx5',
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can find paths to target node with target key(1) - two-direction', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const vertexPathArr = vertex1.pathTo('vrtx5');
+    const testingValue = [];
+    vertexPathArr.forEach((path) => {
+      testingValue.push(path.reduce((result, vrtx) => {
+        result.push(vrtx.key);
+        return result;
+      }, []));
+    });
+    const expectedValue = [
+      ['vrtx1', 'vrtx2', 'vrtx4', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx3', 'vrtx5'],
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can find paths to target node with target key(2) - one-direction', () => {
+    vertex1.addOutEdge(vertex2);
+    vertex1.addOutEdge(vertex3);
+    vertex2.addOutEdge(vertex4);
+    vertex2.addOutEdge(vertex3);
+    vertex3.addOutEdge(vertex4);
+    vertex3.addOutEdge(vertex5);
+    const vertexPathArr = vertex1.pathTo('vrtx5');
+    const testingValue = [];
+    vertexPathArr.forEach((path) => {
+      testingValue.push(path.reduce((result, vrtx) => {
+        result.push(vrtx.key);
+        return result;
+      }, []));
+    });
+    const expectedValue = [
+      ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx3', 'vrtx5'],
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can map new pathArr from vertex pathArr', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const testingValue = vertex1.mapPath('vrtx5', (vrtx) => vrtx.key);
+    const expectedValue = [
+      ['vrtx1', 'vrtx2', 'vrtx4', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx3', 'vrtx5'],
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can get vertex key array for each path', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex2.addEdge(vertex4);
+    vertex2.addEdge(vertex3);
+    vertex3.addEdge(vertex4);
+    vertex3.addEdge(vertex5);
+    const testingValue = vertex1.pathKeyArr('vrtx5');
+    const expectedValue = [
+      ['vrtx1', 'vrtx2', 'vrtx4', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx2', 'vrtx3', 'vrtx5'],
+      ['vrtx1', 'vrtx3', 'vrtx5'],
     ];
     expect(testingValue).toEqual(expectedValue);
   });

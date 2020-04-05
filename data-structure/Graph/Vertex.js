@@ -1,4 +1,5 @@
 const LinkedList = require('../LinkedList/LinkedList');
+const Queue = require('../Queue/Queue');
 
 class Vertex {
   constructor(value, id, key, inLimit, outLimit) {
@@ -138,14 +139,15 @@ class Vertex {
     const hasChecked = {};
     let curVrtx = this;
     stack.push(curVrtx);
+    hasChecked[curVrtx.key] = true;
 
     function search() {
       curVrtx = stack.pop();
       callback(curVrtx);
-      hasChecked[curVrtx.key] = true;
       curVrtx.forEachEdge('to', (vrtx) => {
         if (!hasChecked[vrtx.key]) {
           stack.push(vrtx);
+          hasChecked[vrtx.key] = true;
         }
       });
     }
@@ -160,14 +162,15 @@ class Vertex {
     const hasChecked = {};
     let curVrtx = this;
     queue.enqueue(curVrtx);
+    hasChecked[curVrtx.key] = true;
 
     function search() {
       curVrtx = queue.dequeue();
       callback(curVrtx);
-      hasChecked[curVrtx.key] = true;
       curVrtx.forEachEdge('to', (vrtx) => {
         if (!hasChecked[vrtx.key]) {
           queue.enqueue(vrtx);
+          hasChecked[vrtx.key] = true;
         }
       });
     }
@@ -175,6 +178,42 @@ class Vertex {
     while (queue.count > 0) {
       search();
     }
+  }
+
+  pathTo(trgtKey) {
+    const pathArr = [];
+    const initialPath = [this];
+    const initialCheckList = {};
+    initialCheckList[this.key] = true;
+    function addPath(vertex, path = [], checkList = {}) {
+      if (vertex.key !== trgtKey) {
+        vertex.forEachEdge('to', (vrtx) => {
+          if (!checkList[vrtx.key]) {
+            const newPath = path.slice();
+            const newCheckList = Object.create(checkList);
+            newPath.push(vrtx);
+            newCheckList[vrtx.key] = true;
+            addPath(vrtx, newPath, newCheckList);
+          }
+        });
+      } else {
+        pathArr.push(path);
+      }
+    }
+
+    addPath(this, initialPath, initialCheckList);
+
+    return pathArr;
+  }
+
+  mapPath(trgtKey, callback) {
+    const pathArr = this.pathTo(trgtKey);
+    const mappedArr = pathArr.map((path) => path.map((vrtx) => callback(vrtx)));
+    return mappedArr;
+  }
+
+  pathKeyArr(trgtKey) {
+    return this.mapPath(trgtKey, (vrtx) => vrtx.key);
   }
 }
 
