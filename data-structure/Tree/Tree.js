@@ -1,4 +1,4 @@
-const LinkedList = require('../linkedList/LinkedList');
+const LinkedList = require('../LinkedList/LinkedList');
 
 class Tree {
   constructor(value) {
