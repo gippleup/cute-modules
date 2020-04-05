@@ -1,5 +1,5 @@
 const Graph = require('./Graph');
-const { log } = require('../../test-helper');
+// const { log } = require('../../test-helper');
 
 describe('Graph', () => {
   beforeEach(() => {
@@ -82,6 +82,36 @@ describe('Graph', () => {
     expect(filteredGraph.vertices.vrtx2.contains('vrtx1')).toEqual(false);
     expect(filteredGraph.vertices.vrtx3.contains('vrtx1')).toEqual(false);
     expect(filteredGraph.vertices.vrtx3.contains('vrtx1')).toEqual(false);
+  });
+
+  it('can perform depth-first search', () => {
+    myGraph.addEdge('vrtx1', 'vrtx2');
+    myGraph.addEdge('vrtx1', 'vrtx3');
+    myGraph.addEdge('vrtx2', 'vrtx4');
+    myGraph.addEdge('vrtx3', 'vrtx5');
+    const testingValue = [];
+    myGraph.dfs('vrtx1', (vrtx) => {
+      testingValue.push(vrtx.value);
+    });
+    const expectedValue = [
+      'vrtx1', 'vrtx3', 'vrtx5', 'vrtx2', 'vrtx4',
+    ];
+    expect(testingValue).toEqual(expectedValue);
+  });
+
+  it('can perform breadth-first search', () => {
+    myGraph.addEdge('vrtx1', 'vrtx2');
+    myGraph.addEdge('vrtx1', 'vrtx3');
+    myGraph.addEdge('vrtx2', 'vrtx4');
+    myGraph.addEdge('vrtx3', 'vrtx5');
+    const testingValue = [];
+    myGraph.bfs('vrtx1', (vrtx) => {
+      testingValue.push(vrtx.value);
+    });
+    const expectedValue = [
+      'vrtx1', 'vrtx2', 'vrtx3', 'vrtx4', 'vrtx5',
+    ];
+    expect(testingValue).toEqual(expectedValue);
   });
 
   afterAll(() => {

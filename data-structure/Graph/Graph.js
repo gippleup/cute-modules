@@ -82,6 +82,58 @@ class Graph {
     });
     return newGraph;
   }
+
+  dfs(originKey, callback) {
+    const originVrtx = this.vertices[originKey];
+    originVrtx.dfs(callback);
+  }
+
+  bfs(originKey, callback) {
+    const originVrtx = this.vertices[originKey];
+    originVrtx.bfs(callback);
+  }
+
+  path(fromKey, toKey, dataType = 'vertex') {
+    const originVrtx = this.vertices[fromKey];
+    if (dataType === 'vertex') {
+      return originVrtx.pathTo(toKey);
+    } if (dataType === 'key') {
+      return originVrtx.pathKeyArr(toKey);
+    } if (dataType === 'value') {
+      return originVrtx.pathValueArr(toKey);
+    }
+    throw new Error(`Requested unexpected data type: ${dataType}`);
+  }
+
+  mapPath(fromKey, toKey, callback) {
+    const originVrtx = this.vertices[fromKey];
+    const mappedPath = originVrtx.mapPath(toKey, (path) => callback(path));
+    return mappedPath;
+  }
+
+  mapPathVrtx(fromKey, toKey, callback) {
+    const originVrtx = this.vertices[fromKey];
+    const mappedPath = originVrtx.mapPath(toKey, (vrtx) => callback(vrtx));
+    return mappedPath;
+  }
+
+  filterPath(fromKey, toKey, callback) {
+    const originVrtx = this.vertices[fromKey];
+    const mappedPath = originVrtx.mapPath(toKey, (vrtx) => callback(vrtx));
+    return mappedPath;
+  }
+
+  reducePath(fromKey, toKey, callback, init) {
+    const originVrtx = this.vertices[fromKey];
+    const reducedPath = originVrtx.reducePath(toKey, (acc, path) => callback(acc, path), init);
+    return reducedPath;
+  }
+
+  shortestPath(fromKey, toKey) {
+    const originVrtx = this.vertices[fromKey];
+    const shortestPath = originVrtx.shortestPathTo(toKey);
+    return shortestPath;
+  }
 }
 
 module.exports = Graph;
