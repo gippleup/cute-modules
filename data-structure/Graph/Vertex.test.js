@@ -56,6 +56,17 @@ describe('Vertex', () => {
     expect(newVrtx1.contains('vrtx5')).toEqual(false);
   });
 
+  it('can collect edges', () => {
+    vertex1.addEdge(vertex2);
+    vertex1.addEdge(vertex3);
+    vertex1.addEdge(vertex4);
+    vertex1.addEdge(vertex5);
+    const collection = vertex1.collectEdges((vrtx) => parseInt(vrtx.key.match(/\d+/g)[0], 10) < 4);
+    expect(collection.inVrtx.length).toEqual(2);
+    expect(collection.inVrtx[0]).toEqual(vertex2);
+    expect(collection.inVrtx[1]).toEqual(vertex3);
+  });
+
   afterAll(() => {
     delete global.vertext1;
     delete global.vertext2;

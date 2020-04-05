@@ -108,6 +108,21 @@ class Vertex {
     });
     return newVrtx;
   }
+
+  collectEdges(callback) {
+    function reducer(acc, node) {
+      if (callback(node.value)) {
+        acc.push(node.value);
+      }
+      return acc;
+    }
+    const inVrtx = this.edges.from.reduce((acc, node) => reducer(acc, node), []);
+    const outVrtx = this.edges.from.reduce((acc, node) => reducer(acc, node), []);
+    return {
+      inVrtx,
+      outVrtx,
+    };
+  }
 }
 
 module.exports = Vertex;
