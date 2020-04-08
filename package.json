@@ -24,6 +24,7 @@
   "homepage": "https://github.com/gippleup/cute-modules#readme",
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "browserify": "^16.5.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-standard": "^14.1.1",
@@ -31,6 +32,12 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.2.4"
+    "jest": "^25.2.4",
+    "watchify": "^3.11.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "cropperjs": "^1.5.6",
+    "jquery": "^3.4.1"
   }
 }

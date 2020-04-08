@@ -113,7 +113,7 @@ class Graph {
 
   mapPathVrtx(fromKey, toKey, callback) {
     const originVrtx = this.vertices[fromKey];
-    const mappedPath = originVrtx.mapPath(toKey, (vrtx) => callback(vrtx));
+    const mappedPath = originVrtx.mapPathVrtx(toKey, (vrtx) => callback(vrtx));
     return mappedPath;
   }
 
